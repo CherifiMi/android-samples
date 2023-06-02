@@ -50,7 +50,7 @@ fun SampleTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        /*darkTheme*/ true -> DarkColorScheme
         else -> LightColorScheme
     }
     val view = LocalView.current
