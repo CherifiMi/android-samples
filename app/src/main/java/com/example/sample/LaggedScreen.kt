@@ -3,15 +3,19 @@ package com.example.sample
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.sample.data.sleepData
+import java.time.LocalDateTime
 
 
 @Composable
@@ -37,7 +41,7 @@ fun LaggedScreen(){
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-        val sleepState by remember {
+        val sleepState by remember{
             mutableStateOf(sleepData)
         }
         JetLaggedTimeGraph(sleepState)
@@ -67,6 +71,3 @@ fun LaggerHeader(modifire: Modifier) {
 @Composable
 fun JetLaggedSleepSummary(modifier: Modifier) {
 }
-
-val sleepData =
-

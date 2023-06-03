@@ -11,9 +11,9 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ShaderBrush
-import com.example.sample.ui.theme.White
-import com.example.sample.ui.theme.Yellow
-import com.example.sample.ui.theme.YellowVariant
+import com.example.sample.theme.White
+import com.example.sample.theme.Yellow
+import com.example.sample.theme.YellowVariant
 import org.intellij.lang.annotations.Language
 
 fun Modifier.yellowBackground(): Modifier = this.composed {
