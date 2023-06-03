@@ -17,7 +17,7 @@ fun LaggedScreen(){
             .fillMaxSize()
             .background(Color.Blue)
     ) {
-        Text(text = "Mitoooo")
+        Text(text = "Mito")
     }
 }
 
