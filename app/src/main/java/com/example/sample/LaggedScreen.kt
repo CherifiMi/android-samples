@@ -3,6 +3,8 @@ package com.example.sample
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,14 +17,12 @@ fun LaggedScreen(){
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color.Blue)
+            .verticalScroll(rememberScrollState())
     ) {
-        Text(text = "Mito")
+        Column(modifier = Modifier.yellowBackground()) {
+
+        }
     }
 }
 
-@Preview
-@Composable
-fun LaggedPreview(){
-    LaggedScreen()
-}
+
