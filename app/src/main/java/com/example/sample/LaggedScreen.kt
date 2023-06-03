@@ -10,6 +10,7 @@ fun LaggedScreen(){
 }
 
 @Preview
+@Composable
 fun LaggedPreview(){
     LaggedScreen()
 }
