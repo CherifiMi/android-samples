@@ -13,6 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sample.SleepGraphData
 import com.example.sample.data.sleepData
+import com.example.sample.ui.components.LaggedHeaderTabs
+import com.example.sample.ui.components.LaggerHeader
+import com.example.sample.ui.components.SleepTab
 import com.example.sample.yellowBackground
 import java.time.LocalDateTime
 
@@ -34,12 +37,13 @@ fun LaggedScreen(){
 
         var selectedTab by remember { mutableStateOf(SleepTab.Week) }
 
-        JetLaggedHeaderTabs(
+        LaggedHeaderTabs(
             onTabSelected = { selectedTab = it },
             selectedTab = selectedTab,
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
         val sleepState by remember{
             mutableStateOf(sleepData)
         }
@@ -52,19 +56,11 @@ fun JetLaggedTimeGraph(sleepState: SleepGraphData) {
 
 }
 
-@Composable
-fun JetLaggedHeaderTabs(onTabSelected: () -> Unit, selectedTab: Any) {
 
-}
 
-enum class SleepTab {
-    Week
-}
 
-@Composable
-fun LaggerHeader(modifire: Modifier) {
 
-}
+
 
 
 @Composable
