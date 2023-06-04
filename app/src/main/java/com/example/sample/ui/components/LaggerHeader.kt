@@ -13,6 +13,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sample.R
+import com.example.sample.theme.HeadingStyle
+import com.example.sample.theme.SmallHeadingStyle
 import com.example.sample.theme.TitleBarStyle
 
 @Preview(showBackground = true)
@@ -41,4 +43,36 @@ fun LaggerHeader(modifier: Modifier = Modifier) {
             )
         }
     }
+}
+
+
+@Composable
+fun LaggedSleepSummary(modifier: Modifier=Modifier) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        Column{
+            Text(
+                stringResource(R.string.average_time_in_bed_heading),
+                style = SmallHeadingStyle
+            )
+            Text(
+                stringResource(R.string.placeholder_text_ave_time),
+                style = HeadingStyle
+            )
+        }
+        Spacer(modifier = Modifier.width(16.dp))
+        Column {
+            Text(
+                stringResource(R.string.average_sleep_time_heading),
+                style = SmallHeadingStyle
+            )
+            Text(
+                stringResource(R.string.placeholder_text_ave_time_2),
+                style = HeadingStyle
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(32.dp))
 }

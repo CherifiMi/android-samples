@@ -27,10 +27,12 @@ fun LaggedScreen(){
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Column(modifier = Modifier.yellowBackground()) {
+        Column(
+            //modifier = Modifier.yellowBackground()
+        ) {
             LaggerHeader(modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(32.dp))
-            //JetLaggedSleepSummary(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            LaggedSleepSummary(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -52,4 +54,5 @@ fun LaggedScreen(){
         //JetLaggedTimeGraph(sleepState)
     }
 }
+
 
