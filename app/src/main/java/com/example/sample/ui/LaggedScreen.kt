@@ -57,7 +57,49 @@ fun LaggedScreen(){
 @Composable
 fun LaggedTimeGraph(sleepGraphData: SleepGraphData) {
     val scrollState = rememberScrollState()
-    val hours = (sleepGraphData.ear)
+    val hours = (sleepGraphData.earliestStartHour..23) + (0..sleepGraphData.latestEndHour)
+
+
 }
 
+
+@Composable
+private fun DayLabel(dayOfWeek: DayOfWeek) {
+    Text(
+        dayOfWeek.getDisplayName(
+            TextStyle.SHORT, Locale.getDefault()
+        ),
+        Modifier
+            .height(24.dp)
+            .padding(start = 8.dp, end = 24.dp),
+        style = SmallHeadingStyle,
+        textAlign = TextAlign.Center
+    )
+}
+
+@Composable
+private fun HoursHeader(hours: List<Int>) {
+    Row(
+        Modifier
+            .padding(bottom = 16.dp)
+            .drawBehind {
+                val brush = Brush.linearGradient(listOf(YellowVariant, Yellow))
+                drawRoundRect(
+                    brush,
+                    cornerRadius = CornerRadius(10.dp.toPx(), 10.dp.toPx()),
+                )
+            }
+    ) {
+        hours.forEach {
+            Text(
+                text = "$it",
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .width(50.dp)
+                    .padding(vertical = 4.dp),
+                style = SmallHeadingStyle
+            )
+        }
+    }
+}
 
