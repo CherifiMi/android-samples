@@ -50,8 +50,14 @@ fun LaggedScreen(){
         val sleepState by remember{
             mutableStateOf(sleepData)
         }
-        //JetLaggedTimeGraph(sleepState)
+        LaggedTimeGraph(sleepState)
     }
+}
+
+@Composable
+fun LaggedTimeGraph(sleepGraphData: SleepGraphData) {
+    val scrollState = rememberScrollState()
+    val hours = (sleepGraphData.ear)
 }
 
 

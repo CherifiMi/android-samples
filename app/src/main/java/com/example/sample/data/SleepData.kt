@@ -12,7 +12,11 @@ import java.time.LocalDateTime
 
 data class SleepGraphData(
     val sleepDayData: List<SleepDayData>
-)
+){
+    earlieast
+}
+
+
 @RequiresApi(Build.VERSION_CODES.O)
 data class SleepDayData(
     val startDate : LocalDateTime,
