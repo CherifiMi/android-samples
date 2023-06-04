@@ -28,9 +28,9 @@ fun LaggedScreen(){
             .verticalScroll(rememberScrollState())
     ) {
         Column(modifier = Modifier.yellowBackground()) {
-            LaggerHeader(modifire = Modifier.fillMaxWidth())
+            LaggerHeader(modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(32.dp))
-            JetLaggedSleepSummary(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
+            //JetLaggedSleepSummary(modifier = Modifier.padding(start = 16.dp, end = 16.dp))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -49,22 +49,7 @@ fun LaggedScreen(){
         val sleepState by remember{
             mutableStateOf(sleepData)
         }
-        JetLaggedTimeGraph(sleepState)
+        //JetLaggedTimeGraph(sleepState)
     }
 }
 
-@Composable
-fun JetLaggedTimeGraph(sleepState: SleepGraphData) {
-
-}
-
-
-
-
-
-
-
-
-@Composable
-fun JetLaggedSleepSummary(modifier: Modifier) {
-}
