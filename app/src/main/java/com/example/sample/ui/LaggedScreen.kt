@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.sample.SleepGraphData
 import com.example.sample.data.sleepData
 import com.example.sample.ui.components.LaggedHeaderTabs
+import com.example.sample.ui.components.LaggedSleepSummary
 import com.example.sample.ui.components.LaggerHeader
 import com.example.sample.ui.components.SleepTab
 import com.example.sample.yellowBackground
@@ -28,7 +29,7 @@ fun LaggedScreen(){
             .verticalScroll(rememberScrollState())
     ) {
         Column(
-            //modifier = Modifier.yellowBackground()
+            modifier = Modifier.yellowBackground()
         ) {
             LaggerHeader(modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.height(32.dp))
