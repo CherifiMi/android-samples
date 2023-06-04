@@ -39,8 +39,6 @@ fun LaggedScreen(){
         Spacer(modifier = Modifier.height(16.dp))
 
         var selectedTab by remember { mutableStateOf(SleepTab.Week) }
-
-        // todo
         LaggedHeaderTabs(
             onTabSelected = { selectedTab = it },
             selectedTab = selectedTab,
