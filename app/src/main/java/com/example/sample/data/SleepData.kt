@@ -13,7 +13,12 @@ import java.time.LocalDateTime
 data class SleepGraphData(
     val sleepDayData: List<SleepDayData>
 ){
-    earlieast
+    val earliestStartHour: Int by lazy{
+        sleepDayData.minOf { it.lastSleepEnd.hour }
+    }
+    val latestEndHour: Int by lazy {
+        sleepDayData.maxOf { it.lastSleepEnd.hour }
+    }
 }
 
 
