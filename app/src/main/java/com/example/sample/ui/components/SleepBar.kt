@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.example.sample.SleepDayData
 import com.example.sample.SleepGraphData
+import com.example.sample.data.sleepData
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -46,11 +48,16 @@ fun SleepBar(
                 animationSpec = tween(animationDuration)
             ),
             content = {
-                //DetailLegend()
+                DetailLegend()
             },
             visible = { it }
         )
     }
+}
+
+@Composable
+fun DetailLegend() {
+
 }
 
 @Composable
