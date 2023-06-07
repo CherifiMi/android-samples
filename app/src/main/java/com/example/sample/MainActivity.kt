@@ -13,8 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.sample.theme.SampleTheme
 import com.example.sample.ui.LaggedScreen
 
-// lagged
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
