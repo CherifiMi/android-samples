@@ -1,5 +1,7 @@
 package com.example.sample.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -68,6 +70,7 @@ fun LaggedTimeGraph(sleepGraphData: SleepGraphData) {
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 private fun DayLabel(dayOfWeek: DayOfWeek) {
     Text(
