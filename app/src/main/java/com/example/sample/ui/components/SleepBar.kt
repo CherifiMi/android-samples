@@ -2,25 +2,26 @@ package com.example.sample.ui.components
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
@@ -28,6 +29,7 @@ import com.example.sample.SleepDayData
 import com.example.sample.SleepPeriod
 import com.example.sample.SleepType
 import com.example.sample.data.sleepData
+import com.example.sample.theme.LegendHeadingStyle
 
 
 @Preview(showBackground = true)
@@ -35,6 +37,7 @@ import com.example.sample.data.sleepData
 fun sleepPrev() {
     SleepBar(sleepData = sleepData.sleepDayData.first())
 }
+
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -166,10 +169,36 @@ fun SleepRoundedBar(sleepData: SleepDayData, transition: Transition<Boolean>) {
 
 }
 
+@Preview
 @Composable
-fun DetailLegend() {
-
+private fun DetailLegend() {
+    Row(
+        modifier = Modifier.padding(top = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        SleepType.values().forEach {
+            LegendItem(it)
+        }
+    }
 }
+
+@Composable
+private fun LegendItem(sleepType: SleepType) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .size(10.dp)
+                .clip(CircleShape)
+                .background(sleepType.color)
+        )
+        Text(
+            stringResource(id = sleepType.title),
+            style = LegendHeadingStyle,
+            modifier = Modifier.padding(start = 4.dp)
+        )
+    }
+}
+
 
 private val sleepGradientBarColorStops: List<Pair<Float, Color>> = SleepType.values().map {
     Pair(
@@ -233,15 +262,31 @@ fun generateSleepPath(
     return path
 }
 
+@OptIn(ExperimentalTextApi::class)
 fun DrawScope.drawSleepBar(
     roundedRectPath: Path,
-    sleepGraphPath: Any,
+    sleepGraphPath: Path,
     gradientBrush: Brush,
     roundedCornerStroke: Stroke,
-    animationProgress: Any,
+    animationProgress: Float,
     textResult: TextLayoutResult,
-    cornerRadiusStartPx: Float
+    cornerRadiusStartPx: Float,
 ) {
+    clipPath(roundedRectPath) {
+        drawPath(sleepGraphPath, brush = gradientBrush)
+        drawPath(
+            sleepGraphPath,
+            style = roundedCornerStroke,
+            brush = gradientBrush
+        )
+    }
+
+    translate(left = -animationProgress * (textResult.size.width + textPadding.toPx())) {
+        drawText(
+            textResult,
+            topLeft = Offset(textPadding.toPx(), cornerRadiusStartPx)
+        )
+    }
 
 }
 
