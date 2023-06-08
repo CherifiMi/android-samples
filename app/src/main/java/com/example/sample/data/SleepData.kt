@@ -74,5 +74,5 @@ enum class SleepType(val title: Int, val color: Color) {
     Awake(R.string.sleep_type_awake, Yellow_Awake),
     Rem(R.string.sleep_type_rem, Yellow_Rem),
     Light(R.string.sleep_type_light, Yellow_Light),
-    Deep(R.string.sleep_type_deep, Yellow_Deep),
+    Deep(R.string.sleep_type_deep, Yellow_Deep),;
 }

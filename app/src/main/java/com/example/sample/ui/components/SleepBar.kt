@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -24,11 +25,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import com.example.sample.SleepDayData
+import com.example.sample.SleepPeriod
 import com.example.sample.SleepType
 import com.example.sample.data.sleepData
 
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun sleepPrev() {
     SleepBar(sleepData = sleepData.sleepDayData.first())
@@ -47,7 +49,7 @@ fun SleepBar(
     val transition = updateTransition(targetState = isExpanded, label = "expanded")
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .clickable(
                 indication = null,
                 interactionSource = remember { MutableInteractionSource() }
@@ -67,17 +69,11 @@ fun SleepBar(
             exit = fadeOut(animationSpec = tween(animationDuration)) + shrinkVertically(
                 animationSpec = tween(animationDuration)
             ),
-            content = {
-                DetailLegend()
-            },
             visible = { it }
-        )
+        ){
+            DetailLegend()
+        }
     }
-}
-
-@Composable
-fun DetailLegend() {
-
 }
 
 @OptIn(ExperimentalTextApi::class)
@@ -85,16 +81,24 @@ fun DetailLegend() {
 fun SleepRoundedBar(sleepData: SleepDayData, transition: Transition<Boolean>) {
     val textMeasurer = rememberTextMeasurer()
 
-    val hight by transition.animateFloat(
-        label = "hight",
-        transitionSpec = {
-            spring(
-                dampingRatio = Spring.DampingRatioHighBouncy,
-                stiffness = Spring.StiffnessLow
-            )
-        }
-    ) {
-        if ( it) 1f else 0f
+    val height by transition.animateDp(label = "height", transitionSpec = {
+        spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness =
+            Spring.StiffnessLow
+        )
+    }) { targetExpanded ->
+        if (targetExpanded) 100.dp else 24.dp
+    }
+
+    val animationProgress by transition.animateFloat(label = "progress", transitionSpec = {
+        spring(
+            dampingRatio = Spring.DampingRatioLowBouncy,
+            stiffness =
+            Spring.StiffnessLow
+        )
+    }) { target ->
+        if (target) 1f else 0f
     }
 
     Spacer(
@@ -162,6 +166,73 @@ fun SleepRoundedBar(sleepData: SleepDayData, transition: Transition<Boolean>) {
 
 }
 
+@Composable
+fun DetailLegend() {
+
+}
+
+private val sleepGradientBarColorStops: List<Pair<Float, Color>> = SleepType.values().map {
+    Pair(
+        when(it){
+            SleepType.Awake -> 0f
+            SleepType.Rem -> 0.33f
+            SleepType.Light -> 0.66f
+            SleepType.Deep -> 1f
+        },
+        it.color
+    )
+}
+
+fun generateSleepPath(
+    canvasSize: Size,
+    sleepData: SleepDayData,
+    width: Float,
+    barHeightPx: Float,
+    heightAnimation: Float,
+    lineThicknessPx: Float
+): Path {
+    val path = Path()
+
+    var previousPeriod: SleepPeriod? = null
+    path.moveTo(0f,0f)
+    sleepData.sleepingPeriods.forEach{period ->
+        val percentageOfTotal = sleepData.fractionOfTotalTime(period)
+        val periodWidth = percentageOfTotal * width
+        val startOffsetPercentage = sleepData.minutesAfterSleepStart(period) /
+                sleepData.totalTimeInBed.toMinutes().toFloat()
+        val halfBarHeight = canvasSize.height/SleepType.values().size/2f
+        val offset = if (previousPeriod == null){
+            0f
+        }else{
+            halfBarHeight
+        }
+        val offsetY = lerp(
+            0f,
+            period.type.heightSleepType() * canvasSize.height,
+            heightAnimation
+        )
+        if (previousPeriod !=null){
+            path.lineTo(
+                x = startOffsetPercentage * width + lineThicknessPx,
+                y = offsetY + offset
+            )
+        }
+        path.addRect(
+            rect = Rect(
+                offset = Offset(x = startOffsetPercentage * width + lineThicknessPx, y = offsetY),
+                size = canvasSize.copy(width = periodWidth, height = barHeightPx)
+            )
+        )
+        path.moveTo(
+            x = startOffsetPercentage * width + periodWidth + lineThicknessPx,
+            y = offsetY + halfBarHeight
+        )
+        previousPeriod = period
+    }
+
+    return path
+}
+
 fun DrawScope.drawSleepBar(
     roundedRectPath: Path,
     sleepGraphPath: Any,
@@ -174,6 +245,15 @@ fun DrawScope.drawSleepBar(
 
 }
 
+
+fun SleepType.heightSleepType(): Float {
+    return when(this){
+        SleepType.Awake -> 0f
+        SleepType.Rem -> 0.25f
+        SleepType.Light -> 0.5f
+        SleepType.Deep -> 0.75f
+    }
+}
 
 private const val animationDuration = 500
 private val lineThickness = 2.dp
