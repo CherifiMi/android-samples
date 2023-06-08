@@ -2,6 +2,7 @@ package com.example.sample.ui
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -18,10 +19,7 @@ import com.example.sample.data.sleepData
 import com.example.sample.theme.SmallHeadingStyle
 import com.example.sample.theme.Yellow
 import com.example.sample.theme.YellowVariant
-import com.example.sample.ui.components.LaggedHeaderTabs
-import com.example.sample.ui.components.LaggedSleepSummary
-import com.example.sample.ui.components.LaggerHeader
-import com.example.sample.ui.components.SleepTab
+import com.example.sample.ui.components.*
 import com.example.sample.yellowBackground
 import java.time.DayOfWeek
 import java.time.format.TextStyle
@@ -66,7 +64,32 @@ fun LaggedTimeGraph(sleepGraphData: SleepGraphData) {
     val scrollState = rememberScrollState()
     val hours = (sleepGraphData.earliestStartHour..23) + (0..sleepGraphData.latestEndHour)
 
-
+    TimeGraph(
+        modifier = Modifier
+            .horizontalScroll(scrollState)
+            .wrapContentSize(),
+        dayItemsCount = sleepGraphData.sleepDayData.size,
+        hoursHeader = {
+            HoursHeader(hours)
+        },
+        dayLabel = { index ->
+            val data = sleepGraphData.sleepDayData[index]
+            DayLabel(data.startDate.dayOfWeek)
+        },
+        bar = { index ->
+            val data = sleepGraphData.sleepDayData[index]
+            // We have access to Modifier.timeGraphBar() as we are now in TimeGraphScope
+            SleepBar(
+                sleepData = data,
+                modifier = Modifier.padding(bottom = 8.dp)
+                    .timeGraphBar(
+                        start = data.firstSleepStart,
+                        end = data.lastSleepEnd,
+                        hours = hours,
+                    )
+            )
+        }
+    )
 }
 
 
@@ -111,3 +134,39 @@ private fun HoursHeader(hours: List<Int>) {
     }
 }
 
+/*
+
+@Composable
+private fun JetLaggedTimeGraph(sleepGraphData: SleepGraphData) {
+    val scrollState = rememberScrollState()
+
+    val hours = (sleepGraphData.earliestStartHour..23) + (0..sleepGraphData.latestEndHour)
+
+    TimeGraph(
+        modifier = Modifier
+            .horizontalScroll(scrollState)
+            .wrapContentSize(),
+        dayItemsCount = sleepGraphData.sleepDayData.size,
+        hoursHeader = {
+            HoursHeader(hours)
+        },
+        dayLabel = { index ->
+            val data = sleepGraphData.sleepDayData[index]
+            DayLabel(data.startDate.dayOfWeek)
+        },
+        bar = { index ->
+            val data = sleepGraphData.sleepDayData[index]
+            // We have access to Modifier.timeGraphBar() as we are now in TimeGraphScope
+            SleepBar(
+                sleepData = data,
+                modifier = Modifier.padding(bottom = 8.dp)
+                    .timeGraphBar(
+                        start = data.firstSleepStart,
+                        end = data.lastSleepEnd,
+                        hours = hours,
+                    )
+            )
+        }
+    )
+}
+* */
