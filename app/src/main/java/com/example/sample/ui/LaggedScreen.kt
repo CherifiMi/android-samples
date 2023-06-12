@@ -78,9 +78,8 @@ fun LaggedTimeGraph(sleepGraphData: SleepGraphData) {
         },
         bar = { index ->
             val data = sleepGraphData.sleepDayData[index]
-            // We have access to Modifier.timeGraphBar() as we are now in TimeGraphScope
             SleepBar(
-                sleepData = data,
+                sleepData = sleepData.sleepDayData.first(),
                 modifier = Modifier.padding(bottom = 8.dp)
                     .timeGraphBar(
                         start = data.firstSleepStart,
@@ -90,6 +89,8 @@ fun LaggedTimeGraph(sleepGraphData: SleepGraphData) {
             )
         }
     )
+
+
 }
 
 
